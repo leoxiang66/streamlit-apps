@@ -8,7 +8,7 @@ sidebar_markdown = f'''
 <img src="https://leoxiang66.github.io/images/tum.png" alt="TUM" width="150"/>
 
 <h1>
-Paper Analysis Tool 
+Literature Research Tool 
 </h1>
 
 
