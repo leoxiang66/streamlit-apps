@@ -22,6 +22,9 @@ After you’ve built a Streamlit app, it's time to share it! To show it off to t
 It works in 3 simple steps:
 
 Put your app in a public GitHub repo (and make sure it has a requirements.txt!)
+
 Sign into share.streamlit.io
+
 Click 'Deploy an app' and then paste in your GitHub URL
+
 That's it! 🎈 You now have a publicly deployed app that you can share with the world. Click to learn more about how to use Streamlit Cloud.
