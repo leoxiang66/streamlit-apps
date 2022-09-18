@@ -9,3 +9,8 @@
   ```
   streamlit run xxx.py
   ```
+
+An example:
+```
+streamlit run multi-page_apps/home.py
+```
