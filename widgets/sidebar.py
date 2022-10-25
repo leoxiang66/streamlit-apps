@@ -49,6 +49,6 @@ def render_sidebar():
 
 
     st.sidebar.markdown('## Choose the number of papers to display')
-    number_papers=st.sidebar.slider('number', 0, 500, 25, 10)
+    number_papers=st.sidebar.slider('number', 5, 100, 25, 10)
     
     return platforms, number_papers
