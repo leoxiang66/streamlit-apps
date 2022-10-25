@@ -2,8 +2,6 @@ import streamlit as st
 from .utils import PACKAGE_ROOT
 
 def render_sidebar():
-    path = f'{PACKAGE_ROOT}/static/tum.png'
-    print(path)
     sidebar_markdown = f'''
 
     <center>
