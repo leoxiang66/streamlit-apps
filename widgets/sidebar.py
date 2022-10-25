@@ -7,7 +7,7 @@ def render_sidebar():
     sidebar_markdown = f'''
 
     <center>
-    <img src="https://github.com/leoxiang66/streamlit-tutorial/blob/IDP/widgets/static/tum.png" alt="TUM" width="150"/>
+    <img src="https://raw.githubusercontent.com/leoxiang66/streamlit-tutorial/IDP/widgets/static/tum.png" alt="TUM" width="150"/>
 
     <h1>
     Literature Research Tool 
