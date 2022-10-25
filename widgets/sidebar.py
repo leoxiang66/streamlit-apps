@@ -1,11 +1,13 @@
 import streamlit as st
-
+from .utils import PACKAGE_ROOT
 
 def render_sidebar():
+    path = f'{PACKAGE_ROOT}/static/tum.png'
+    print(path)
     sidebar_markdown = f'''
 
     <center>
-    <img src="https://img.kookapp.cn/assets/2022-07/8rKqcd8Pnv0xc0hc.png" alt="TUM" width="150"/>
+    <img src="{PACKAGE_ROOT}/static/tum.png" alt="TUM" width="150"/>
 
     <h1>
     Literature Research Tool 
