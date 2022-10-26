@@ -2,3 +2,4 @@ numpy==1.23.3
 pandas==1.4.4
 streamlit==1.13.0
 requests-toolkit-stable==0.8.0
+pyecharts==1.9.1

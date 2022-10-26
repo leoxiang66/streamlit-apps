@@ -1,6 +1,5 @@
 import streamlit as st
 from api_ import ArxivQuery, IEEEQuery, PaperWithCodeQuery
-import random
 
 def __preview__(platforms, num_papers, num_papers_preview, query_input,start_year,end_year):
     with st.spinner('Searching...'):
