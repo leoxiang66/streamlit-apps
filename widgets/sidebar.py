@@ -1,5 +1,6 @@
 import streamlit as st
-from .utils import PACKAGE_ROOT
+import datetime
+# from .utils import PACKAGE_ROOT
 
 def render_sidebar():
     sidebar_markdown = f'''
@@ -48,7 +49,14 @@ def render_sidebar():
 
 
 
-    st.sidebar.markdown('## Choose the number of papers to display')
-    number_papers=st.sidebar.slider('number', 5, 100, 25, 10)
+    st.sidebar.markdown('## Choose the max number of papers to search')
+    number_papers=st.sidebar.slider('number', 50, 200, 50, 10)
+
+    st.sidebar.markdown('## Choose the start year of publication')
+    this_year = datetime.date.today().year
+    start_year = st.sidebar.slider('year start:', 2000, this_year, 2010, 1)
+
+    st.sidebar.markdown('## Choose the end year of publication')
+    end_year = st.sidebar.slider('year end:', 2000, this_year, this_year, 1)
     
-    return platforms, number_papers
+    return platforms, number_papers, start_year, end_year
