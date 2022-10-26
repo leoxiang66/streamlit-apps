@@ -25,7 +25,7 @@ with st.form("my_form",clear_on_submit=False):
 
 if submitted:
     # body
-    render_body(platforms, number_papers, 5, query_input, show_preview)
+    render_body(platforms, number_papers, 5, query_input, show_preview,start_year,end_year)
 
 
 

@@ -2,7 +2,7 @@ import streamlit as st
 from api_ import ArxivQuery, IEEEQuery, PaperWithCodeQuery
 import random
 
-def __preview__(platforms, num_papers, num_papers_preview, query_input):
+def __preview__(platforms, num_papers, num_papers_preview, query_input,start_year,end_year):
     with st.spinner('Searching...'):
         paperInGeneral = st.empty()  # paper的大概
         paperInGeneral_md = '''# Query Results Preview
@@ -14,7 +14,7 @@ We have found following papers for you! (displaying 5 papers for each literature
 | -------- | -------- | -------- |
 '''
             IEEEQuery.__setup_api_key__('vpd9yy325enruv27zj2d353e')
-            ieee = IEEEQuery.query(query_input)
+            ieee = IEEEQuery.query(query_input,start_year,end_year,num_papers)
             num_papers_preview = min(len(ieee), num_papers_preview)
             for i in range(num_papers_preview):
                 title = str(ieee[i]['title']).replace('\n', ' ')
@@ -47,10 +47,10 @@ We have found following papers for you! (displaying 5 papers for each literature
 
         paperInGeneral.markdown(paperInGeneral_md)
 
-def render_body(platforms, num_papers, num_papers_preview, query_input, show_preview:bool):
+def render_body(platforms, num_papers, num_papers_preview, query_input, show_preview:bool,start_year,end_year):
 
     tmp = st.empty()
     if query_input != '':
         tmp.markdown(f'You entered query: `{query_input}`')
         if show_preview:
-            __preview__(platforms,num_papers,num_papers_preview,query_input)
+            __preview__(platforms,num_papers,num_papers_preview,query_input,start_year,end_year)
