@@ -16,7 +16,7 @@ with st.form("my_form",clear_on_submit=False):
     query_input = st.text_input(
         'Enter your keyphrases',
         placeholder='''e.g. "Machine learning"''',
-        label_visibility='collapsed',
+        # label_visibility='collapsed',
         value=''
     )
 
