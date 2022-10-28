@@ -1,6 +1,7 @@
 import streamlit as st
 from requests_toolkit import  AirQualityQuery
 
+
 st.markdown('''# Country Air Quality Ranking''')
 country =  st.text_input(
     label=' ',
@@ -13,11 +14,18 @@ if country is not None and country != '':
 | -------- | -------- | -------- | -------- |
 '''
     md= st.empty()
-    generator =  AirQualityQuery.air_quality_by_country(country,return_frequency=10)
-    for i in generator:
-        new_md = ''
-        for id, j in enumerate(i):
-            new_md += f'''|{id + 1}|{j[0]}|{j[1]}|{j[2]}|\n'''
-        md.markdown(md_head + new_md)
+    generator = AirQualityQuery.air_quality_by_country(country, return_frequency=10)
+    while True:
+        try:
+            with st.spinner():
+                i = next(generator)
+            new_md = ''
+            for id, j in enumerate(i):
+                new_md += f'''|{id + 1}|{j[0]}|{j[1]}|{j[2]}|\n'''
+            md.markdown(md_head + new_md)
+        except StopIteration:
+            break
+
+
 
 
