@@ -5,7 +5,7 @@ st.markdown('''# Country Air Quality Ranking''')
 country =  st.text_input(
     label=' ',
     placeholder=' Which country do you want to query?',
-    label_visibility = 'collapsed'
+    # label_visibility = 'collapsed'
 )
 
 if country is not None and country != '':
