@@ -24,10 +24,7 @@ with st.form(key='my form'):
 # ))
 
 if submit:
-    st.markdown(f'''You entered:
-    Country: `{country}`, 
-    Province:`{province}`
-    ''')
+    st.markdown(f'''You entered: `{country}`, `{province}`''')
 
     if country != '':
         # all provinces
