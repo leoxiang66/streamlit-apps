@@ -6,14 +6,14 @@ st.markdown('''# Country Air Quality Ranking''')
 with st.form(key='my form'):
     country = st.text_input(
         label='Country:',
-        placeholder=' Which country do you want to query?',
+        placeholder='''e.g. "china"''',
         # label_visibility = 'collapsed'
     )
 
     # include_province = st.checkbox('search specific province')
     province = st.text_input(
         label='Province:',
-        placeholder= f'''Which province do you want to query? Leave blank for all provinces''',
+        placeholder= f'''e.g. "fujian". (Leave blank for all provinces)''',
     )
 
     submit = st.form_submit_button('Search')
