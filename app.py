@@ -50,7 +50,8 @@ if submit:
 | -------- | -------- | -------- | -------- |
 '''
             md = st.empty()
-            i = AirQualityQuery.air_quality_by_province_country(country, province)
+            with st.spinner():
+                i = AirQualityQuery.air_quality_by_province_country(country, province)
             new_md = ''
             for id, j in enumerate(i):
                 new_md += f'''|{id + 1}|{j[0]}|{j[1]}|{j[2]}|\n'''
