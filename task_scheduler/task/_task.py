@@ -1,3 +1,4 @@
+
 class Task:
     def __init__(self, name: str,content: str, minutes: int) -> None:
         super().__init__()
@@ -5,3 +6,12 @@ class Task:
             raise ValueError('Invalid values for a task.')
         self.content = content
         self.time_in_minites = minutes
+
+
+class TaskList:
+    def __init__(self):
+        self.list = []
+
+    def addTask(self,name: str,content: str, minutes: int):
+        self.list.append(Task(name,content,minutes))
+
