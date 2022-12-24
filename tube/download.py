@@ -21,7 +21,8 @@ def download_yt(yt:YouTube, id = None, output_dir:str = './downloads'):
             filename=output_file_name
         )
         return True
-    except:
+    except Exception as e:
+        print(e)
         return False
     finally:
         prompt.empty()
