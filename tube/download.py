@@ -2,7 +2,8 @@ from pathlib import Path
 from pytube import Playlist,YouTube
 import time
 import streamlit as st
-from .utils import compress_folder_2_zip
+from .utils import compress_folder_2_zip, clear_cache
+from .var import OUTPUT_DIR
 
 
 
@@ -35,32 +36,33 @@ def download_playlist(url:str):
     print('Number of videos in playlist: %s' % number_videos)
 
     # download path
-    output_path = f'./downloads/{playlist.title}'
-    p = Path(output_path)
-    p.mkdir(parents=True, exist_ok=True)
+    output_path = OUTPUT_DIR.joinpath(f'{playlist.title}')
+    output_path.mkdir(parents=True, exist_ok=True)
 
     for id,yt in enumerate(playlist.videos):
         pb.progress(id/number_videos)
         while not download_yt(
             yt=yt,
             id=id,
-            output_dir= output_path
+            output_dir= output_path.__str__()
         ):
             print(f'download failed: {str(yt.title)}.')
             time.sleep(1)
 
     pb.empty()
-    compress_folder_2_zip(output_filename=playlist.title, dir_name=output_path)
+    compress_folder_2_zip(output_filename=playlist.title, dir_name=output_path.__str__())
 
     prompt.success(
         'Congratulations! You have successfully downloaded all the videos! Click on the download button to download them!')
-    download_file(f'{playlist.title}.zip')
+    download_file(f'{playlist.title}.zip', output_path.__str__())
 
 
 
-def download_file(path):
-    def tmp():
+def download_file(path,folder_name):
+    def tmp(*,folder_name:str):
         st.session_state["title"] = ""
+        clear_cache(folder_name)
+
 
     with open(path, "rb") as file:
         btn = st.download_button(
@@ -68,7 +70,9 @@ def download_file(path):
             data=file,
             file_name=path,
             # mime="image/png"
-            on_click= tmp
+            on_click= tmp,kwargs=dict(
+                folder_name = folder_name
+            )
         )
 
 
