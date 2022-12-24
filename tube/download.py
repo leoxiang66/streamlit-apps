@@ -63,6 +63,7 @@ def download_file(path,folder_name):
     def tmp(*,folder_name:str):
         st.session_state["title"] = ""
         clear_cache(folder_name)
+        Path(path).unlink()
 
 
     with open(path, "rb") as file:
