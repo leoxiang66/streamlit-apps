@@ -1,6 +1,7 @@
 import shutil
 import streamlit as st
 from pathlib import Path
+from .var import OUTPUT_DIR
 
 
 
@@ -16,17 +17,17 @@ def compress_folder_2_zip(output_filename: str, dir_name:str):
     prompt.empty()
 
 
-def rm_tree(pth):
+def remove_dir_rec(pth):
     pth = Path(pth)
-    for child in pth.glob('*'):
-        if child.is_file():
-            child.unlink()
-        else:
-            rm_tree(child)
-    pth.rmdir()
-
-def clear_cache(dir_name:str):
-    rm_tree(dir_name)
+    if pth.exists():
+        for child in pth.glob('*'):
+            if child.is_file():
+                child.unlink()
+            else:
+                remove_dir_rec(child)
+        pth.rmdir()
+def clear_cache(dir_name:str = OUTPUT_DIR):
+    remove_dir_rec(dir_name)
 
 
 
