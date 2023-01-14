@@ -5,7 +5,7 @@ tb.clear_cache()
 
 
 md = '''
-# YouTube Playlist Downloader
+# YouTube Downloader
 '''
 
 st.markdown(md)
@@ -13,14 +13,14 @@ st.markdown(md)
 
 url = st.text_input(
     placeholder="https://www.youtube.com/",
-    label='**Enter the url of the playlist:**',
+    label='**Enter the url of the youtube:**',
     key='title'
 )
 
 
 
 if url is not None and ('https' in url or 'http' in url):
-    tb.download_playlist(url)
+    tb.download_yt(url)
 
 
 
