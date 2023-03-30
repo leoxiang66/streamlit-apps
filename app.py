@@ -76,30 +76,33 @@ def home():
     st.dataframe(e1c1)
     st.markdown("**Generated research trends**")
     st.markdown('''
-    - 'speech recognition/multilingual automatic speech recognition/automatic speech recognition/speaker recognition/visual speech recognition/multilingual speech recognition',
-    - 'speech enhancement', 'deep neural network/neural network',
-    - 'multi-task learning',
+    - 'automatic speech recognition',
+    - 'deep neural network/multiple deep neural network/graph neural network',
+    - 'multi-task learning network/multi-task learning',
     - 'speaker diarization',
-    - 'self-supervised speech',
-    - 'ensemble knowledge distillation',
-    - 'ekd',
-    - 'aggregation',
-    - 'ami'''.replace('''\'''',""))
+    - 'multiple self-supervised speech model',
+    - 'distilled model',
+    - 'ensemble knowledge',
+    - 'optimization framework',
+    - 'text-based audio retrieval',
+    - 'data leakage'
+    '''.replace('''\'''',""))
     '''\n\n\n'''
 
     st.markdown("### Cluster 2")
     st.dataframe(e1c2)
     st.markdown("**Generated research trends**")
     st.markdown('''
-    - 'convolutional neural networks/deep convolutional neural networks/convolutional neural network', 
-    - 'deep learning', 'segmentation/pore segmentation/tumor segmentation', 
-    - 'contrastive learning/iterative learning', 
-    - 'deep neural networks'
-    - 'image classification/classification/mri classification'
-    - 'depth estimation/density estimation'
-    - 'imagenet-1k/imagenet', 
-    - 'domain adaptation', 
-    - 'feature extraction'
+   - 'convolutional neural network/graph convolutional neural network',
+   - 'deep learning',
+   - 'deep neural network',
+   - 'computer vision',
+   - 'x-ray image classification/image classification',
+   - 'semantic segmentation/3D semantic segmentation',
+   - 'domain generalisation/out-of-domain generalization',
+   - 'data augmentation',
+   - 'contrastive learning/contrastive Learning',
+   - 'object-centric video prediction/object-agnostic video prediction model'
     '''.replace('''\'''',""))
     '''\n\n\n'''
 
@@ -108,16 +111,16 @@ def home():
     st.markdown("**Generated research trends**")
     st.markdown(
         '''
-        - large vision language models/large language models/masked language models/masked language model',
-        - 'visual representation', 
-        - 'contrastive learning', 
-        - 'pre-training/retraining', 
-        - 'e-learning/learning', 
-        - 'language-based learning/language learning', 
-        - 'graph classification/classification', 
-        - 'demultiplexing/multiplexing/data multiplexing', 
-        - 'nlp', 
-        - 'multi-modal pre-training
+        - 'large language model/language models/language model/masked language model/language modeling',
+        - 'vision & Language model/vision-language model', 
+        - 'pre-trained language model/pre-trained multiplexed language model', 
+        - 'information-seeking question answering', 
+        - 'web-scale visual and language pre-training', 
+        - 'human-annotated (high-level) abstract captions', 
+        - 'deep learning/deep learning model', 
+        - 'language-driven representation learning from human videos and associated captions', 
+        - 'visual representation learning', 
+        - 'data augmentation technique/text augmentation technique'
         '''.replace('''\'''','')
     )
     '''\n\n\n'''
@@ -144,30 +147,33 @@ def home():
     st.dataframe(e1c1)
     st.markdown("**Generated research trends**")
     st.markdown('''
-        - 'speech recognition/multilingual automatic speech recognition/automatic speech recognition/speaker recognition/visual speech recognition/multilingual speech recognition',
-        - 'speech enhancement', 'deep neural network/neural network',
-        - 'multi-task learning',
-        - 'speaker diarization',
-        - 'self-supervised speech',
-        - 'ensemble knowledge distillation',
-        - 'ekd',
-        - 'aggregation',
-        - 'ami'''.replace('''\'''', ""))
+        - 'automatic speech recognition/automated speech recognition/end-to-end automatic speech recognition (asr)/automatic speech recognition (asr)',
+        - 'speech recognition/speaker recognition', 
+        - 'word error rate', 
+        - 'deep neural network/neural network', 
+        - 'multi-task learning setting/multi-task learning network/multi-task learning (mtl)', 
+        - 'ground truth', 
+        - 'speech enhancement/speech enhancement (se',
+        - 'multiple self-supervised speech model',
+        - 'layerwise aggregation technique',
+        - 'multiple prediction head method'
+        '''.replace('''\'''', ""))
     '''\n\n\n'''
 
     st.markdown("### Cluster 2")
     st.dataframe(e1c2)
     st.markdown("**Generated research trends**")
     st.markdown('''
-        - 'convolutional neural networks/deep convolutional neural networks/convolutional neural network', 
-        - 'deep learning', 'segmentation/pore segmentation/tumor segmentation', 
-        - 'contrastive learning/iterative learning', 
-        - 'deep neural networks'
-        - 'image classification/classification/mri classification'
-        - 'depth estimation/density estimation'
-        - 'imagenet-1k/imagenet', 
-        - 'domain adaptation', 
-        - 'feature extraction'
+        - 'deep convolutional neural network (CNN)/convolutional neural network/convolution network/convolutional neural networks (convnets)/convolutional neural network (CNN)/graph convolutional neural network', 
+        - 'deep neural network/neural network/deep neural network (dnn)', 
+        - 'image segmentation/medical image segmentation/medical image recognition/image segmentation task', 
+        - 'deep learning', 
+        - 'self-supervised learning/unsupervised learning/supervised learning', 
+        - 'feature extraction/image feature extraction', 
+        - 'image classification/x-ray image classification/tissue classification', 
+        - 'high-dimensional distribution/high dimensional distribution', 
+        - 'computer vision', 
+        - 'semantic segmentation/3d semantic segmentation'
         '''.replace('''\'''', ""))
     '''\n\n\n'''
 
@@ -176,16 +182,16 @@ def home():
     st.markdown("**Generated research trends**")
     st.markdown(
         '''
-        - large vision language models/large language models/masked language models/masked language model',
-        - 'visual representation', 
-        - 'contrastive learning', 
-        - 'pre-training/retraining', 
-        - 'e-learning/learning', 
-        - 'language-based learning/language learning', 
-        - 'graph classification/classification', 
-        - 'demultiplexing/multiplexing/data multiplexing', 
-        - 'nlp', 
-        - 'multi-modal pre-training
+        - 'language model/large language models (llm)/large language model/large language model (llm)',
+        - 'natural language processing/natural language processing (nlp)', 
+        - 'machine learning', 
+        - 'neural network/deep neural network', 
+        - 'deep learning/deep learning model', 
+        - 'question answering', 
+        - 'information-seeking question-answer pairs', 
+        - 'web-scale visual and language pre-training', 
+        - 'human-annotated (high-level) abstract captions', 
+        - 'vision & language models'
         '''.replace('''\'''', '')
     )
     '''\n\n\n'''
