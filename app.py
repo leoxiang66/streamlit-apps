@@ -93,4 +93,5 @@ session = helper.OpenSession(
 
 st.markdown("# Human Evaluation for TrendFlow")
 st.info(session.summary())
+helper
 session.render()
