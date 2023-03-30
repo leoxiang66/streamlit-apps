@@ -7,7 +7,7 @@ requirements = ["streamlit"]
 
 setup(
     name="StreamHelper",
-    version="0.1.2",
+    version="0.1.3",
     author="Tao Xiang",
     author_email="tao.xiang@tum.de",
     description="A package of RL algorithms",
