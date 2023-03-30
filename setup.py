@@ -3,7 +3,11 @@ from setuptools import setup, find_packages
 with open("README.md", "r") as readme_file:
     readme = readme_file.read()
 
-requirements = ["streamlit"]
+requirements = [
+    "streamlit",
+    'shillelagh==1.1.5',
+    'shillelagh[gsheetsapi]'
+]
 
 setup(
     name="StreamHelper",
