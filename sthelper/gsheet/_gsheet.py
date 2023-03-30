@@ -46,3 +46,18 @@ def get_whole_dataset():
     dataset = run_query(query)
     return dataset
 
+
+def add_new_row(data:dict):
+    # data = dict(
+    #     email=tmp['email'],
+    #     e1_relevance=tmp['e1_relevance'],
+    #     e1_coherence=tmp['e1_coherence'],
+    #     e1_accuracy=tmp['e1_accuracy'],
+    #     e2_relevance=tmp['e2_relevance'],
+    #     e2_coherence=tmp['e2_coherence'],
+    #     e2_accuracy=tmp['e2_accuracy'],
+    # )
+    columns_str = ", ".join(data.keys())
+    new_values_str = ", ".join([f"\'{str(x)}\'" for x in data.values()])
+    query = f'INSERT INTO SHEET ({columns_str}) VALUES ({new_values_str})'
+    run_query(query)

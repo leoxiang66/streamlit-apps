@@ -11,7 +11,7 @@ requirements = [
 
 setup(
     name="StreamHelper",
-    version="0.2.0",
+    version="0.3.0",
     author="Tao Xiang",
     author_email="tao.xiang@tum.de",
     description="A package of RL algorithms",
