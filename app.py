@@ -1,8 +1,7 @@
 import streamlit as st
 import sthelper as helper
 import pandas as pd
-
-
+from sthelper.gsheet import run_query
 
 
 def welcome():
@@ -216,7 +215,27 @@ def home():
         """,
         unsafe_allow_html=True,
     )
-    st.button('Submit',on_click=lambda : session.go_to_page('thanks'))
+
+    def submit():
+        session.go_to_page('thanks')
+        tmp = session.to_dict()
+        data = dict(
+            email = tmp['email'],
+            e1_relevance = tmp['e1_relevance'],
+            e1_coherence = tmp['e1_coherence'],
+            e1_accuracy = tmp['e1_accuracy'],
+            e2_relevance=tmp['e2_relevance'],
+            e2_coherence=tmp['e2_coherence'],
+            e2_accuracy=tmp['e2_accuracy'],
+        )
+        # print(data)
+        columns_str = ", ".join(data.keys())
+        new_values_str = ", ".join([f"\'{str(x)}\'" for x in data.values()])
+        query = f'INSERT INTO SHEET ({columns_str}) VALUES ({new_values_str})'
+        print(query)
+        run_query(query)
+
+    st.button('Submit',on_click=submit)
 
 
 session = helper.OpenSession(
