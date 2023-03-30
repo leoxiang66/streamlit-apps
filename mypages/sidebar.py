@@ -75,7 +75,7 @@ def render_sidebar():
             cluster_model = st.selectbox('4) Clustering model', options=['Gaussian Mixture Model', 'K-means'], index=0)
 
         with st.expander('Keyphrases Generation Options'):
-            model_cpt = st.selectbox(label='Model checkpoint', options=['KeyBART', 'KeyBART-adapter-32', 'KeyPhraseTransformer'], index=0)
+            model_cpt = st.selectbox(label='Model checkpoint', options=['KeyBart', 'KeyBartAdapter', 'keyphrase-transformer'], index=0)
 
         st.markdown('---')
         st.markdown(icons, unsafe_allow_html=True)

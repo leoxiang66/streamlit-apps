@@ -1,73 +1,96 @@
 import streamlit as st
 from .sidebar import render_sidebar
-from trendflow.API.query import ArxivQuery, IEEEQuery, PaperWithCodeQuery
-# from lrt.clustering.clusters import SingleCluster
-# from lrt.clustering.config import Configuration
-# from lrt import ArticleList, LiteratureResearchTool
-# from lrt_instance import *
-# from .charts import build_bar_charts
+from requests_toolkit import ArxivQuery,IEEEQuery,PaperWithCodeQuery
+from trendflow.lrt.clustering.clusters import SingleCluster
+from trendflow.lrt.clustering.config import Configuration
+from trendflow.lrt import ArticleList, LiteratureResearchTool
+from trendflow.lrt_instance import *
+from .charts import build_bar_charts
 
 def home():
-    render_sidebar()
+    # sidebar content
+    platforms, number_papers, start_year, end_year, hyperparams = render_sidebar()
+
+    # body head
+    with st.form("my_form", clear_on_submit=False):
+        st.markdown('''# 👋 Hi, enter your query here :)''')
+        query_input = st.text_input(
+            'Enter your query:',
+            placeholder='''e.g. "Machine learning"''',
+            # label_visibility='collapsed',
+            value=''
+        )
+
+        show_preview = st.checkbox('show paper preview')
+
+        # Every form must have a submit button.
+        submitted = st.form_submit_button("Search")
+
+    if submitted:
+        # body
+        render_body(platforms, number_papers, 5, query_input,
+                    show_preview, start_year, end_year,
+                    hyperparams,
+                    hyperparams['standardization'])
 
 
+def __preview__(platforms, num_papers, num_papers_preview, query_input, start_year, end_year):
+    with st.spinner('Searching...'):
+        paperInGeneral = st.empty()  # paper的大概
+        paperInGeneral_md = '''# 0 Query Results Preview
+We have found following papers for you! (displaying 5 papers for each literature platforms)
+'''
+        if 'IEEE' in platforms:
+            paperInGeneral_md += '''## IEEE
+| ID| Paper Title | Publication Year |
+| -------- | -------- | -------- |
+'''
+            IEEEQuery.__setup_api_key__('vpd9yy325enruv27zj2d353e')
+            ieee = IEEEQuery.query(query_input, start_year, end_year, num_papers)
+            num_papers_preview = min(len(ieee), num_papers_preview)
+            for i in range(num_papers_preview):
+                title = str(ieee[i]['title']).replace('\n', ' ')
+                publication_year = str(ieee[i]['publication_year']).replace('\n', ' ')
+                paperInGeneral_md += f'''|{i + 1}|{title}|{publication_year}|\n'''
+        if 'Arxiv' in platforms:
+            paperInGeneral_md += '''
+## Arxiv
+| ID| Paper Title | Publication Year |
+| -------- | -------- | -------- |
+'''
+            arxiv = ArxivQuery.query(query_input, max_results=num_papers)
+            num_papers_preview = min(len(arxiv), num_papers_preview)
+            for i in range(num_papers_preview):
+                title = str(arxiv[i]['title']).replace('\n', ' ')
+                publication_year = str(arxiv[i]['published']).replace('\n', ' ')
+                paperInGeneral_md += f'''|{i + 1}|{title}|{publication_year}|\n'''
+        if 'Paper with Code' in platforms:
+            paperInGeneral_md += '''
+## Paper with Code
+| ID| Paper Title | Publication Year |
+| -------- | -------- | -------- |
+'''
+            pwc = PaperWithCodeQuery.query(query_input, items_per_page=num_papers)
+            num_papers_preview = min(len(pwc), num_papers_preview)
+            for i in range(num_papers_preview):
+                title = str(pwc[i]['title']).replace('\n', ' ')
+                publication_year = str(pwc[i]['published']).replace('\n', ' ')
+                paperInGeneral_md += f'''|{i + 1}|{title}|{publication_year}|\n'''
 
-    def __preview__(platforms, num_papers, num_papers_preview, query_input, start_year, end_year):
-        with st.spinner('Searching...'):
-            paperInGeneral = st.empty()  # paper的大概
-            paperInGeneral_md = '''# 0 Query Results Preview
-    We have found following papers for you! (displaying 5 papers for each literature platforms)
-    '''
-            if 'IEEE' in platforms:
-                paperInGeneral_md += '''## IEEE
-    | ID| Paper Title | Publication Year |
-    | -------- | -------- | -------- |
-    '''
-                IEEEQuery.__setup_api_key__('vpd9yy325enruv27zj2d353e')
-                ieee = IEEEQuery.query(query_input, start_year, end_year, num_papers)
-                num_papers_preview = min(len(ieee), num_papers_preview)
-                for i in range(num_papers_preview):
-                    title = str(ieee[i]['title']).replace('\n', ' ')
-                    publication_year = str(ieee[i]['publication_year']).replace('\n', ' ')
-                    paperInGeneral_md += f'''|{i + 1}|{title}|{publication_year}|\n'''
-            if 'Arxiv' in platforms:
-                paperInGeneral_md += '''
-    ## Arxiv
-    | ID| Paper Title | Publication Year |
-    | -------- | -------- | -------- |
-    '''
-                arxiv = ArxivQuery.query(query_input, max_results=num_papers)
-                num_papers_preview = min(len(arxiv), num_papers_preview)
-                for i in range(num_papers_preview):
-                    title = str(arxiv[i]['title']).replace('\n', ' ')
-                    publication_year = str(arxiv[i]['published']).replace('\n', ' ')
-                    paperInGeneral_md += f'''|{i + 1}|{title}|{publication_year}|\n'''
-            if 'Paper with Code' in platforms:
-                paperInGeneral_md += '''
-    ## Paper with Code
-    | ID| Paper Title | Publication Year |
-    | -------- | -------- | -------- |
-    '''
-                pwc = PaperWithCodeQuery.query(query_input, items_per_page=num_papers)
-                num_papers_preview = min(len(pwc), num_papers_preview)
-                for i in range(num_papers_preview):
-                    title = str(pwc[i]['title']).replace('\n', ' ')
-                    publication_year = str(pwc[i]['published']).replace('\n', ' ')
-                    paperInGeneral_md += f'''|{i + 1}|{title}|{publication_year}|\n'''
+        paperInGeneral.markdown(paperInGeneral_md)
 
-            paperInGeneral.markdown(paperInGeneral_md)
+def render_body(platforms, num_papers, num_papers_preview, query_input, show_preview: bool, start_year, end_year,
+                hyperparams: dict, standardization=False):
 
-    def render_body(platforms, num_papers, num_papers_preview, query_input, show_preview: bool, start_year, end_year,
-                    hyperparams: dict, standardization=False):
+    tmp = st.empty()
+    if query_input != '':
+        tmp.markdown(f'You entered query: `{query_input}`')
 
-        tmp = st.empty()
-        if query_input != '':
-            tmp.markdown(f'You entered query: `{query_input}`')
+        # preview
+        if show_preview:
+            __preview__(platforms, num_papers, num_papers_preview, query_input, start_year, end_year)
 
-            # preview
-            if show_preview:
-                __preview__(platforms, num_papers, num_papers_preview, query_input, start_year, end_year)
-
+        with st.spinner("Clustering and generating..."):
             # lrt results
             ## baseline
             if hyperparams['dimension_reduction'] == 'none' \
@@ -113,6 +136,7 @@ def home():
                     for keyphrase in cluster.top_5_keyphrases:
                         md += f'''- `{keyphrase}`\n'''
                     st.markdown(md)
+
 
 
 
