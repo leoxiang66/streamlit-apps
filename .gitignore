@@ -4,6 +4,7 @@ __pycache__/
 *$py.class
 
 # C extensions
+*toml
 *.so
 *.ps1
 *.sh
