@@ -106,7 +106,7 @@ def render_body(platforms, num_papers, num_papers_preview, query_input, show_pre
                 )
                 model = LiteratureResearchTool(config)
 
-            generator = model(query_input, num_papers, start_year, end_year, max_k=hyperparams['max_k'],
+            generator = model.yield_(query_input, num_papers, start_year, end_year, max_k=hyperparams['max_k'],
                               platforms=platforms, standardization=standardization)
             for i, plat in enumerate(platforms):
                 clusters, articles = next(generator)
@@ -127,10 +127,10 @@ def render_body(platforms, num_papers, num_papers_preview, query_input, show_pre
                 st.markdown(f'''\n- the article information in the cluster\n- the keyphrases of the cluster''')
                 for j, cluster in enumerate(clusters):
                     assert isinstance(cluster, SingleCluster)  # TODO: remove this line
-                    ids = cluster.elements()
+                    ids = cluster.get_elements()
                     articles_in_cluster = ArticleList([articles[id] for id in ids])
                     st.markdown(f'''**Cluster {j + 1}**''')
-                    st.dataframe(articles_in_cluster.getDataFrame())
+                    st.dataframe(articles_in_cluster.to_dataframe())
                     st.markdown(f'''The top 5 keyphrases of this cluster are:''')
                     md = ''
                     for keyphrase in cluster.top_5_keyphrases:
