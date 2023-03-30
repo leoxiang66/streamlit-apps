@@ -5,7 +5,8 @@ __pycache__/
 
 # C extensions
 *.so
-
+*.ps1
+*.sh
 # Distribution / packaging
 .idea
 venv
