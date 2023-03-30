@@ -13,7 +13,7 @@ setup(
     description="A package of RL algorithms",
     long_description=readme,
     long_description_content_type="text/markdown",
-    url="",
+    url="https://github.com/leoxiang66/streamlit-apps/tree/toolkit",
     packages=find_packages(),
     install_requires=requirements,
     classifiers=[
