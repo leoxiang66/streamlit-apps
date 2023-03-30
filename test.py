@@ -1,6 +1,7 @@
 import sthelper as sth
 import streamlit as st
 
+sth.widgets.build_TOC([])
 
 def homepage():
     st.markdown("# Homepage")
