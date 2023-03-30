@@ -93,5 +93,11 @@ session = helper.OpenSession(
 
 st.markdown("# Human Evaluation for TrendFlow")
 st.info(session.summary())
-helper
+helper.widgets.build_TOC(
+    [
+        ('h2', 'Dataset for this evaluation'),
+        ('h2','Metrics for this evaluation'),
+        ('h2','Evaluation 1'),
+    ]
+)
 session.render()
