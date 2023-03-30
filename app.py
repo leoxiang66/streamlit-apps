@@ -1,7 +1,7 @@
 import streamlit as st
 import sthelper as helper
 import pandas as pd
-from sthelper.gsheet import run_query
+from sthelper.gsheet import add_new_row
 
 
 def welcome():
@@ -228,12 +228,7 @@ def home():
             e2_coherence=tmp['e2_coherence'],
             e2_accuracy=tmp['e2_accuracy'],
         )
-        # print(data)
-        columns_str = ", ".join(data.keys())
-        new_values_str = ", ".join([f"\'{str(x)}\'" for x in data.values()])
-        query = f'INSERT INTO SHEET ({columns_str}) VALUES ({new_values_str})'
-        print(query)
-        run_query(query)
+        add_new_row(data)
 
     st.button('Submit',on_click=submit)
 
@@ -248,5 +243,5 @@ session = helper.OpenSession(
 )
 
 
-st.info(session.summary())
+# st.info(session.summary())
 session.render()
