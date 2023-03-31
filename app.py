@@ -34,7 +34,7 @@ TrendFlow is an advanced framework that uses deep learning techniques to analyze
 3. It generates research trends from the abstracts for each cluster and visualizes the final
     results.
     
-To simplify this human evaluation, we ourself randomly collect around 300 abstracts in domains NLP, CV or audio processing on Arxiv. Then, we feed these abstracts to TrendFlow (with 2 different configurations), which clusters the abstracts and generates research trends for each cluster.
+To simplify this human evaluation, we ourself randomly collect around 217 abstracts in domains NLP, CV or audio processing on Arxiv. Then, we feed these abstracts to TrendFlow (with 2 different configurations), which clusters the abstracts and generates research trends for each cluster.
     
 Raters are expected to rate the relevance, coherence of the clusters and the accuracy of the research trends. Besides, raters can give additional feedbacks (such as how is this pipeline in general? And improvement? Any drawbacks?).
 
