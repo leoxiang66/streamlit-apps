@@ -4,6 +4,47 @@ import pandas as pd
 from sthelper.gsheet import add_new_row
 
 
+def intro():
+    def onclick():
+        session.go_to_page('welcome')
+    st.markdown("# Human Evaluation for TrendFlow")
+    st.markdown('''<h1 align='center'> TrendFlow</h1>
+
+<p align='center'>
+<a href = "https://github.com/leoxiang66/research-trends-analysis">
+<img src="https://img.shields.io/github/stars/leoxiang66/research-trends-analysis.svg?style=social">
+</a>
+<a href = "https://leoxiang66.github.io/research-trends-analysis/"><img src="https://img.shields.io/website?label=documentation&up_message=online&url=https://leoxiang66.github.io/research-trends-analysis/"> </a>
+<a href="https://pypi.org/project/TrendFlow/"><img src="https://badge.fury.io/py/trendflow.svg" alt="PyPI version" /> </a>
+<a href="https://discord.gg/P5Y3FHgHRz">
+        <img alt="chat on Discord" src="https://img.shields.io/discord/1091063040662843565?logo=discord">
+    </a>
+</p>
+
+
+TrendFlow is an advanced framework that uses deep learning techniques to analyze research trends. This powerful framework offers a wide range of analytical capabilities, including literature clustering, trend generation, and trend summarization. With TrendFlow, you can gain insights into emerging research topics and stay up-to-date on the latest advancements in your field.''', unsafe_allow_html=True)
+
+    '''
+    **The general working pipeline of TrendFlow:**
+    
+1. TrendFlow starts by searching relevant literature on literature platforms such as IEEE
+    using user-defined queries
+2. It then encodes the abstracts of the literature into embeddings (vectors) and clusters the
+    embeddings.
+3. It generates research trends from the abstracts for each cluster and visualizes the final
+    results.
+    
+To simplify this human evaluation, we ourself randomly collect around 300 abstracts in domains NLP, CV or audio processing on Arxiv. Then, we feed these abstracts to TrendFlow (with 2 different configurations), which clusters the abstracts and generates research trends for each cluster.
+    
+Raters are expected to rate the relevance, coherence of the clusters and the accuracy of the research trends. Besides, raters can give additional feedbacks (such as how is this pipeline in general? And improvement? Any drawbacks?).
+
+You are also welcome to try our beta version web app: https://huggingface.co/spaces/Adapting/TrendFlow
+
+(since it's using free cloud CPU, the framework is kinda slow at the moment)
+    '''
+
+    st.button('Continue', on_click=onclick)
+
 def welcome():
     def onclick():
         session.init('email', email)
@@ -40,6 +81,7 @@ def home():
             ('h2', 'Metrics for this evaluation'),
             ('h2', 'Evaluation 1'),
             ('h2', 'Evaluation 2'),
+            ('h2', "Additional Feedbacks about TrendFlow")
         ]
     )
 
@@ -203,6 +245,9 @@ def home():
     st.slider('Accuracy of Research Trends', 1, 5, 3, key='e2_accuracy')
 
 
+    '''---'''
+    '''## Additional Feedbacks about TrendFlow'''
+    st.text_area('',key='feedbacks')
 
     #########
     # finish
@@ -233,6 +278,7 @@ def home():
             e2_relevance=tmp['e2_relevance'],
             e2_coherence=tmp['e2_coherence'],
             e2_accuracy=tmp['e2_accuracy'],
+            feedbacks = tmp['feedbacks']
         )
         add_new_row(data)
 
@@ -240,11 +286,12 @@ def home():
 
 
 session = helper.OpenSession(
-    current_page='welcome',
+    current_page='intro',
     page_map=dict(
         welcome = welcome,
         home = home,
-        thanks = thanks
+        thanks = thanks,
+        intro = intro
     )
 )
 

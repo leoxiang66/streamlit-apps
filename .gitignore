@@ -8,6 +8,7 @@ __pycache__/
 *.so
 *.ps1
 *.sh
+.config.json
 
 # Distribution / packaging
 .idea
