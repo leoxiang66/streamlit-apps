@@ -1,300 +1,235 @@
+import datetime
+
 import streamlit as st
+from streamlit_chat import message
+
+
+st.set_page_config(
+    page_title="ChatPPT - Chat with Any Slides",
+    page_icon="🧊",
+    # layout="wide",
+    initial_sidebar_state="expanded",
+    menu_items={
+        # 'Get Help': 'https://www.extremelycoolapp.com/help',
+        # 'Report a bug': "https://www.extremelycoolapp.com/bug",
+        'About': "# This is a header. This is an *extremely* cool app!"
+    }
+)
 import sthelper as helper
-import pandas as pd
-from sthelper.gsheet import add_new_row
+import utils
+
+
+
+
+def privacy():
+    '''
+
+    Returns:
+    '''
+    '''
+# Privacy Policy
+
+At ChatPPT, we understand the importance of protecting the privacy of our users. We are committed to maintaining the confidentiality and security of any personal information that we collect.
+
+Our app requires users to set up their own OpenAI API key in order to access features provided by ChatGPT3.5. We want to assure our users that we do not store or retain any information related to their OpenAI API key. This means that your key remains entirely private and is never accessible to anyone else, including our team.
+
+We use industry-standard security measures to protect the personal information of our users, and we take all necessary precautions to ensure that your data remains secure. Our commitment to protecting your privacy is paramount, and we will always strive to maintain the highest standards of data protection and security.
+
+Please feel free to contact us if you have any questions or concerns regarding our privacy policy. We are dedicated to ensuring that our users feel safe and secure when using our app, and we will do everything in our power to protect your personal information.
+    '''
+
+    checked = st.checkbox('''I agree with the privacy policy, let's rock!''')
+    if checked:
+        key = st.text_input("Your OpenAI API Key")
+        if key != "":
+            session.update('openai_key',key)
+    def on_lick():
+        if checked:
+            session.go_to_page('app')
+        else:
+            st.info("You need to first agree with the privacy policy.")
+
+    st.button("Start",on_click=on_lick)
 
 
 def intro():
     def onclick():
-        session.go_to_page('welcome')
-    st.markdown("# Human Evaluation for TrendFlow")
-    st.markdown('''<h1 align='center'> TrendFlow</h1>
+        if session.get('file') is not None:
+            session.go_to_page('privacy')
 
-<p align='center'>
-<a href = "https://github.com/leoxiang66/research-trends-analysis">
-<img src="https://img.shields.io/github/stars/leoxiang66/research-trends-analysis.svg?style=social">
-</a>
-<a href = "https://leoxiang66.github.io/research-trends-analysis/"><img src="https://img.shields.io/website?label=documentation&up_message=online&url=https://leoxiang66.github.io/research-trends-analysis/"> </a>
-<a href="https://pypi.org/project/TrendFlow/"><img src="https://badge.fury.io/py/trendflow.svg" alt="PyPI version" /> </a>
-<a href="https://discord.gg/P5Y3FHgHRz">
-        <img alt="chat on Discord" src="https://img.shields.io/discord/1091063040662843565?logo=discord">
-    </a>
-</p>
-
-
-TrendFlow is an advanced framework that uses deep learning techniques to analyze research trends. This powerful framework offers a wide range of analytical capabilities, including literature clustering, trend generation, and trend summarization. With TrendFlow, you can gain insights into emerging research topics and stay up-to-date on the latest advancements in your field.''', unsafe_allow_html=True)
-
-    '''
-    **The general working pipeline of TrendFlow:**
-    
-1. TrendFlow starts by searching relevant literature on literature platforms such as IEEE
-    using user-defined queries
-2. It then encodes the abstracts of the literature into embeddings (vectors) and clusters the
-    embeddings.
-3. It generates research trends from the abstracts for each cluster and visualizes the final
-    results.
-    
-To simplify this human evaluation, we ourself randomly collect around 217 abstracts in domains NLP, CV or audio processing on Arxiv. Then, we feed these abstracts to TrendFlow (with 2 different configurations), which clusters the abstracts and generates research trends for each cluster.
-    
-Raters are expected to rate the relevance, coherence of the clusters and the accuracy of the research trends. Besides, raters can give additional feedbacks (such as how is this pipeline in general? And improvement? Any drawbacks?).
-
-You are also welcome to try our beta version web app: https://huggingface.co/spaces/Adapting/TrendFlow
-
-(since it's using free cloud CPU, the framework is kinda slow at the moment)
-    '''
-
-    st.button('Continue', on_click=onclick)
-
-def welcome():
-    def onclick():
-        session.init('email', email)
-        session.go_to_page('home')
-
-    st.markdown("# Human Evaluation for TrendFlow")
-    email = st.text_input('Email Address')
-    st.button("Start", on_click=onclick)
-
-def thanks():
-    st.markdown(''' <h1 style="margin-top: 100px; font-size: 48px; font-weight: bold; color: #333333;">Thanks for Your Effort!</h1>
-    <p style="margin-top: 40px; font-size: 24px; color: #666666;">We appreciate all the hard work you put into this project.</p>''', unsafe_allow_html=True)
-
-
-def home():
-    # Cache the dataframe so it's only loaded once
-    @st.cache_data
-    def load_data():
-        tmp = pd.read_csv('results/dataset.csv')
-        return tmp
-
-    @st.cache_data
-    def load_e1():
-        c1 = pd.read_csv('results/e1/e1c1.csv')
-        c2 = pd.read_csv('results/e1/e1c2.csv')
-        c3 = pd.read_csv('results/e1/e1c3.csv')
-        return c1,c2,c3
-
-    df = load_data()
-    st.markdown("# Human Evaluation for TrendFlow")
-    helper.widgets.build_TOC(
-        [
-            ('h2', 'Dataset for this evaluation'),
-            ('h2', 'Metrics for this evaluation'),
-            ('h2', 'Evaluation 1'),
-            ('h2', 'Evaluation 2'),
-            ('h2', "Additional Feedbacks about TrendFlow")
-        ]
-    )
-
-    st.markdown("## Dataset for this evaluation")
-    st.dataframe(df, use_container_width=False)
-
-    '''
-    ## Metrics for this evaluation
-    1. **relevance of clusters** 
-        "Relevance of clusters" refers to the degree to which the clusters obtained from a clustering algorithm are meaningful or useful for a particular task or application. 
-        
-        In other words, how well the clusters align with the goals or objectives of the analysis.
-    2. **coherence of clusters**
-        "Coherence of clusters" is a term used in cluster analysis, which is a technique used in unsupervised machine learning to group similar data points together into clusters based on some similarity metric. The coherence of clusters refers to how well-defined or meaningful the clusters are, in terms of how distinct and internally consistent the data points within each cluster are.
-        
-        In other words, how internally consistent the data points with each cluster are.
-    3. **accuracy of research trends**
-        "Accuracy of research trends" refers to the degree to which the identified trends represent the actual state of the research in a given field or topic.
-    '''
-
-    ##############
-       ## E1 ##
-    #{
-    #    'plm': 'all-mpnet-base-v2',
-    #    'dimension_reduction': 'none',
-    #    'clustering': 'gmm',
-    #    'keywords_extraction': 'KeyBART-adapter'
-    #}
-    ##############
-    st.markdown('## Evaluation 1')
-    e1c1,e1c2,e1c3 = load_e1()
-
-    st.markdown("### Cluster 1")
-    st.dataframe(e1c1)
-    st.markdown("**Generated research trends**")
-    st.markdown('''
-    - 'automatic speech recognition',
-    - 'deep neural network/multiple deep neural network/graph neural network',
-    - 'multi-task learning network/multi-task learning',
-    - 'speaker diarization',
-    - 'multiple self-supervised speech model',
-    - 'distilled model',
-    - 'ensemble knowledge',
-    - 'optimization framework',
-    - 'text-based audio retrieval',
-    - 'data leakage'
-    '''.replace('''\'''',""))
-    '''\n\n\n'''
-
-    st.markdown("### Cluster 2")
-    st.dataframe(e1c2)
-    st.markdown("**Generated research trends**")
-    st.markdown('''
-   - 'convolutional neural network/graph convolutional neural network',
-   - 'deep learning',
-   - 'deep neural network',
-   - 'computer vision',
-   - 'x-ray image classification/image classification',
-   - 'semantic segmentation/3D semantic segmentation',
-   - 'domain generalisation/out-of-domain generalization',
-   - 'data augmentation',
-   - 'contrastive learning/contrastive Learning',
-   - 'object-centric video prediction/object-agnostic video prediction model'
-    '''.replace('''\'''',""))
-    '''\n\n\n'''
-
-    st.markdown("### Cluster 3")
-    st.dataframe(e1c3)
-    st.markdown("**Generated research trends**")
-    st.markdown(
-        '''
-        - 'large language model/language models/language model/masked language model/language modeling',
-        - 'vision & Language model/vision-language model', 
-        - 'pre-trained language model/pre-trained multiplexed language model', 
-        - 'information-seeking question answering', 
-        - 'web-scale visual and language pre-training', 
-        - 'human-annotated (high-level) abstract captions', 
-        - 'deep learning/deep learning model', 
-        - 'language-driven representation learning from human videos and associated captions', 
-        - 'visual representation learning', 
-        - 'data augmentation technique/text augmentation technique'
-        '''.replace('''\'''','')
-    )
-    '''\n\n\n'''
-
-    '''---'''
-    '''> *Evaluation: ("1" for very bad, "5" for very good)*'''
-    st.slider('Relevance of Clusters',1,5,3,key='e1_relevance')
-    st.slider('Coherence of Clusters', 1, 5, 3, key='e1_coherence')
-    st.slider('Accuracy of Research Trends', 1, 5, 3, key='e1_accuracy')
-
-    ##############
-    ## E2 ##
-    # {
-    #    'plm': 'all-mpnet-base-v2',
-    #    'dimension_reduction': 'none',
-    #    'clustering': 'gmm',
-    #    'keywords_extraction': 'KeyBART'
-    # }
-    ##############
-    st.markdown('## Evaluation 2')
-    # e1c1, e1c2, e1c3 = load_e1()
-
-    st.markdown("### Cluster 1")
-    st.dataframe(e1c1)
-    st.markdown("**Generated research trends**")
-    st.markdown('''
-        - 'automatic speech recognition/automated speech recognition/end-to-end automatic speech recognition (asr)/automatic speech recognition (asr)',
-        - 'speech recognition/speaker recognition', 
-        - 'word error rate', 
-        - 'deep neural network/neural network', 
-        - 'multi-task learning setting/multi-task learning network/multi-task learning (mtl)', 
-        - 'ground truth', 
-        - 'speech enhancement/speech enhancement (se',
-        - 'multiple self-supervised speech model',
-        - 'layerwise aggregation technique',
-        - 'multiple prediction head method'
-        '''.replace('''\'''', ""))
-    '''\n\n\n'''
-
-    st.markdown("### Cluster 2")
-    st.dataframe(e1c2)
-    st.markdown("**Generated research trends**")
-    st.markdown('''
-        - 'deep convolutional neural network (CNN)/convolutional neural network/convolution network/convolutional neural networks (convnets)/convolutional neural network (CNN)/graph convolutional neural network', 
-        - 'deep neural network/neural network/deep neural network (dnn)', 
-        - 'image segmentation/medical image segmentation/medical image recognition/image segmentation task', 
-        - 'deep learning', 
-        - 'self-supervised learning/unsupervised learning/supervised learning', 
-        - 'feature extraction/image feature extraction', 
-        - 'image classification/x-ray image classification/tissue classification', 
-        - 'high-dimensional distribution/high dimensional distribution', 
-        - 'computer vision', 
-        - 'semantic segmentation/3d semantic segmentation'
-        '''.replace('''\'''', ""))
-    '''\n\n\n'''
-
-    st.markdown("### Cluster 3")
-    st.dataframe(e1c3)
-    st.markdown("**Generated research trends**")
-    st.markdown(
-        '''
-        - 'language model/large language models (llm)/large language model/large language model (llm)',
-        - 'natural language processing/natural language processing (nlp)', 
-        - 'machine learning', 
-        - 'neural network/deep neural network', 
-        - 'deep learning/deep learning model', 
-        - 'question answering', 
-        - 'information-seeking question-answer pairs', 
-        - 'web-scale visual and language pre-training', 
-        - 'human-annotated (high-level) abstract captions', 
-        - 'vision & language models'
-        '''.replace('''\'''', '')
-    )
-    '''\n\n\n'''
-
-    '''---'''
-    '''> *Evaluation: ("1" for very bad, "5" for very good)*'''
-    st.slider('Relevance of Clusters', 1, 5, 3, key='e2_relevance')
-    st.slider('Coherence of Clusters', 1, 5, 3, key='e2_coherence')
-    st.slider('Accuracy of Research Trends', 1, 5, 3, key='e2_accuracy')
-
-
-    '''---'''
-    '''## Additional Feedbacks about TrendFlow'''
-    st.text_area('',key='feedbacks')
-
-    #########
-    # finish
-    #########
-    '''\n\n\n'''
-    # center a Streamlit button horizontally on the page
-    st.markdown(
-        """
-        <style>
-        div.stButton > button:first-child {
-            margin-left: auto;
-            margin-right: auto;
-            display: block;
-        }
-        </style>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    def submit():
-        session.go_to_page('thanks')
-        tmp = session.to_dict()
-        data = dict(
-            email = tmp['email'],
-            e1_relevance = tmp['e1_relevance'],
-            e1_coherence = tmp['e1_coherence'],
-            e1_accuracy = tmp['e1_accuracy'],
-            e2_relevance=tmp['e2_relevance'],
-            e2_coherence=tmp['e2_coherence'],
-            e2_accuracy=tmp['e2_accuracy'],
-            feedbacks = tmp['feedbacks']
+    '''&nbsp;&nbsp;'''
+    st.markdown("<center> <b>Let's get started!</b> </center>", unsafe_allow_html=True)
+    file = st.file_uploader(accept_multiple_files=False,type='pdf',label_visibility='collapsed',label='ok')
+    if file is not None:
+        print('>>> 上传成功')
+        session.update('file',file)
+        st.markdown(
+            """
+            <style>
+            div.stButton > button:first-child {
+                margin-left: auto;
+                margin-right: auto;
+                display: block;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True,
         )
-        add_new_row(data)
+        st.button("Start", on_click=onclick)
 
-    st.button('Submit',on_click=submit)
+
+
+
+def index():
+    st.markdown('''<center> 
+    <h1>ChatPPT - Chat with Any Slides</h1> 
+    <h5>Enhance your learning experience with AI-powered Q&A for every slide!</h5>
+    </center>''', unsafe_allow_html=True)
+
+    '''
+    
+    
+    ChatPPT, the innovative app designed to help students better understand university course materials, one slide at a time. Powered by ChatGPT, get instant answers to your questions and clarify concepts effortlessly.
+    '''
+    intro()
+
+
+
+
+
+
+def app():
+    def sys_append(uttr:str):
+        focus = session.get('focus')
+        if  focus not in session.get('generated'):
+            session.get('generated')[focus] = [uttr]
+        else:
+            session.get('generated')[focus].append(uttr)
+
+    def usr_append(uttr:str):
+        focus = session.get('focus')
+        if  focus not in session.get('generated'):
+            session.get('past')[focus] = [uttr]
+        else:
+            session.get('past')[focus].append(uttr)
+
+    def build_chat_file(user,sys):
+        focus = st.session_state.focus
+
+        ret = f'- {user}\n'
+        ret += f'\t- {sys}\n'
+        ret += '\n\n'
+
+        if focus not in session.get('chathistory'):
+            session.get('chathistory')[focus] = f'# {st.session_state.file.name} Page {focus}\n\n'+ ret
+        else:
+            tmp = session.get('chathistory')[focus]
+            session.get('chathistory')[focus]= tmp + ret
+
+
+
+
+
+    sidebar()
+    contents = utils.extract_pdf_text(session.get('file'))
+
+    textinput = st.empty()
+    input = textinput.text_input(label="hi",label_visibility='collapsed',placeholder='"Ask anything about this slide.."',key=session.get('pkey'))
+
+    if input !="":
+        usr_append(input)
+        sys = utils.ask_gpt(context= contents[session.get('focus')],user=input)
+        sys_append(sys)
+        build_chat_file(input,sys)
+
+
+        newkey = session.get('pkey')+"1"
+        textinput.text_input(label="hi",label_visibility='collapsed',placeholder='"Ask anything about this slide.."',key=newkey)
+        session.update('pkey',newkey)
+        st.experimental_rerun()
+
+    render_chat()
+
+
+def render_chat():
+    if session.get('focus') in st.session_state['generated'] and len(
+            session.get('generated')[session.get('focus')]) > 0:
+        for i in range(len(st.session_state['generated'][session.get('focus')]) - 1, -1, -1):
+            message(st.session_state["generated"][session.get('focus')][i], key=str(i), avatar_style="avataaars")
+            message(st.session_state['past'][session.get('focus')][i], is_user=True, key=str(i) + '_user')
+
+
+def sidebar():
+    def nxtpage():
+        focus = session.get('focus') + 1
+        if focus <= session.get('pagecount'):
+            session.update('focus', focus)
+
+    def prepage():
+        focus = session.get('focus') - 1
+        if focus > 0:
+            session.update('focus', focus)
+
+    previews = utils.extract_pdf_images(session.get('file').getvalue(), ratio=0.3)
+    session.update('pagecount', len(previews))
+    page = st.sidebar.selectbox(label='Page', options=range(1, session.get('pagecount') + 1),
+                                index=session.get('focus') - 1)
+    if page != session.get('focus'):
+        print(page)
+        session.update('focus', page)
+    st.sidebar.image(previews[session.get('focus') - 1])
+    c1, c3, c2 = st.sidebar.columns(3)
+    c1.button("Previous Page", on_click=prepage)
+    c2.button("Next Page", on_click=nxtpage)
+    if session.get('focus') in session.get('chathistory'):
+        c3.download_button("Export Chat", data=session.get('chathistory')[session.get('focus')], file_name='chat.md')
+    st.sidebar.markdown('''---''')
+    st.sidebar.markdown('''
+    <style>
+        a {
+            text-decoration: none;
+            margin: 0 10px;
+        }
+    </style>
+    
+      <center>
+        <a href="/" target="_self">
+            Home
+        </a>
+        <a href="https://discord.gg/your-invite-code">
+            Discord
+        </a>
+        <a href="https://memomind.cn/">
+            About Memomind
+        </a>
+    </center>
+    ''',unsafe_allow_html=True)
+    st.sidebar.markdown('''&nbsp;&nbsp;&nbsp;''')
+
+    st.sidebar.markdown(f'''<center>Copyright © 2022 - {datetime.datetime.now().year} by Memomind</center>''',unsafe_allow_html=True)
+
+
+
 
 
 session = helper.OpenSession(
-    current_page='intro',
+    current_page='index',
     page_map=dict(
-        welcome = welcome,
-        home = home,
-        thanks = thanks,
-        intro = intro
+        app = app,
+        intro = intro,
+        index = index,
+        privacy = privacy
     )
 )
 
-
-# st.info(session.summary())
+session.init('openai_key',None)
+session.init('chathistory',{})
+session.init("pkey","_")
+session.init('generated',{})
+session.init('past',{})
+session.init('file',None)
+session.init('focus',1)
+session.init('pagecount',-1)
+st.info(session.summary())
 session.render()
+st.info(session.summary())

@@ -1,6 +1,7 @@
-numpy
-pandas
+pdf2image
+pillow
+PyPDF2
 streamlit
 StreamHelper
-shillelagh==1.1.5
-shillelagh[gsheetsapi]
+streamlit-chat
+requests_toolkit_stable
