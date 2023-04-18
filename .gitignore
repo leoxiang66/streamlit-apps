@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 *$py.class
+**replit**
+*.lock
+**pyproject**
 
 # C extensions
 
