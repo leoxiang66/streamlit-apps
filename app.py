@@ -138,7 +138,7 @@ def app():
 
     if input !="":
         usr_append(input)
-        sys = utils.ask_gpt(context= contents[session.get('focus')],user=input)
+        sys = utils.ask_gpt(context= contents[session.get('focus')-1],user=input)
         sys_append(sys)
         build_chat_file(input,sys)
 
