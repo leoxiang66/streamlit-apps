@@ -1,4 +1,6 @@
 import datetime
+import os
+os.system("sudo apt-get install poppler-utils")
 
 import streamlit as st
 from streamlit_chat import message
