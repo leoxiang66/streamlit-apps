@@ -1,6 +1,6 @@
-pdf2image
+pdf2image== 1.16.3
 pillow
-PyPDF2
+PyPDF2==3.0.1
 streamlit
 StreamHelper
 streamlit-chat
