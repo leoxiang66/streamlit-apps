@@ -10,7 +10,7 @@ __pycache__/
 .streamlit
 *.so
 *.ps1
-*.sh
+pypi.sh
 .config.json
 
 # Distribution / packaging
