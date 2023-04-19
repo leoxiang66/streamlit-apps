@@ -196,7 +196,7 @@ def sidebar():
         <a href="/" target="_self">
             Home
         </a>
-        <a href="https://discord.gg/your-invite-code">
+        <a href="https://discord.gg/mCjYK5cUP8">
             Discord
         </a>
         <a href="https://memomind.cn/">
