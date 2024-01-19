@@ -1,6 +1,7 @@
 numpy
 pandas
-streamlit
+streamlit==1.30.0
 StreamHelper
 shillelagh==1.1.5
 shillelagh[gsheetsapi]
+altair<5

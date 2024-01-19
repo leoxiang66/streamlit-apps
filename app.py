@@ -61,12 +61,12 @@ def thanks():
 
 def home():
     # Cache the dataframe so it's only loaded once
-    @st.cache_data
+    
     def load_data():
         tmp = pd.read_csv('results/dataset.csv')
         return tmp
 
-    @st.cache_data
+    
     def load_e1():
         c1 = pd.read_csv('results/e1/e1c1.csv')
         c2 = pd.read_csv('results/e1/e1c2.csv')
