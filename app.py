@@ -160,7 +160,7 @@ We kindly request you to score the quality of each audio clip and compare the de
             margin-right: auto;
             display: block;
         }
-        </style>
+        </style> 
         """,
         unsafe_allow_html=True,
     )
@@ -194,4 +194,4 @@ session = helper.OpenSession(
 
 
 # st.info(session.summary())
-session.render()
+session.render() 
