@@ -169,7 +169,7 @@ We kindly request you to score the quality of each audio clip and compare the de
         session.go_to_page('thanks')
         tmp = session.to_dict()
         data = dict(
-            email = tmp['email'],
+            # email = tmp['email'],
             e1_relevance = tmp['e1_relevance'],
             e1_coherence = tmp['e1_coherence'],
             e1_accuracy = tmp['e1_accuracy'],
