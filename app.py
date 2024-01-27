@@ -1,10 +1,16 @@
 import streamlit as st
 import sthelper as helper
-import pandas as pd
 from sthelper.gsheet import add_new_row
+import random
+
 
 slider_sample_count = 0
 sample_count = 0
+
+# scores
+q1= None
+q2 = None
+c = None
 
 pairs = [
     (0,1),
@@ -39,7 +45,8 @@ pairs = [
 ]
 
 
-import random
+
+
 
 def select_random_elements(lst, num_elements=8):
     if len(lst) < num_elements:
@@ -48,7 +55,8 @@ def select_random_elements(lst, num_elements=8):
     selected_elements = random.sample(lst, num_elements)
     return selected_elements
 
-
+# selected_pairs = select_random_elements(pairs,num_elements=8) # todo
+selected_pairs = pairs[:8]
 
 def thanks():
     st.markdown(''' <h1 style="margin-top: 100px; font-size: 48px; font-weight: bold; color: #333333;">Thanks for Your Effort!</h1>
@@ -57,14 +65,16 @@ def thanks():
 
 def home():
     # Cache the dataframe so it's only loaded once
-    selected_pairs = select_random_elements(pairs,num_elements=8)
     
     
-    def draw_one_sample(a,b):
+    
+    def draw_one_sample(a,b,p=1):
         global slider_sample_count, sample_count
         sample_count += 1
         st.markdown(f"## Pair {sample_count}")
         col1, col2 = st.columns(2,gap="large")
+        
+        pair = f'p{str(p)}'
         
     
         with col2:
@@ -76,7 +86,9 @@ def home():
             **Quality**
             '''
             slider_sample_count += 1
-            st.slider(label=str(slider_sample_count),min_value=1,max_value=5, label_visibility="collapsed")
+            st.slider(label=str(slider_sample_count),min_value=1,max_value=5, label_visibility="collapsed",
+                      key = f'{pair}q2')
+            
 
         with col1:
             '''
@@ -87,7 +99,8 @@ def home():
             **Quality**
             '''
             slider_sample_count += 1
-            st.slider(label=str(slider_sample_count),min_value=1,max_value=5, label_visibility="collapsed")
+            st.slider(label=str(slider_sample_count),min_value=1,max_value=5, label_visibility="collapsed",
+                      key = f'{pair}q1')
             
         
         
@@ -104,7 +117,8 @@ def home():
         slider_sample_count += 1
         st.text("")
         st.text("")
-        st.slider(label=str(slider_sample_count),min_value=1,max_value=5, label_visibility="collapsed")
+        st.slider(label=str(slider_sample_count),min_value=1,max_value=5, label_visibility="collapsed",
+                  key = f'{pair}c')
             
             
         '''
@@ -144,9 +158,9 @@ We kindly request you to score the quality of each audio clip and compare the de
     '''
     ---
     '''
-    for p in selected_pairs:
-        print(p)
-        draw_one_sample(p[0],p[1])
+    for idx,p in enumerate(selected_pairs):
+        
+        draw_one_sample(p[0],p[1],idx+1)
     
 
   
@@ -169,14 +183,10 @@ We kindly request you to score the quality of each audio clip and compare the de
         session.go_to_page('thanks')
         tmp = session.to_dict()
         data = dict(
-            # email = tmp['email'],
-            e1_relevance = tmp['e1_relevance'],
-            e1_coherence = tmp['e1_coherence'],
-            e1_accuracy = tmp['e1_accuracy'],
-            e2_relevance=tmp['e2_relevance'],
-            e2_coherence=tmp['e2_coherence'],
-            e2_accuracy=tmp['e2_accuracy'],
-            feedbacks = tmp['feedbacks']
+            p1q1 = tmp['p1q1'],
+            p1q2 = tmp['p1q2'],
+            p1c = tmp['p1c']
+            
         )
         add_new_row(data)
 
